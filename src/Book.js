@@ -2,17 +2,16 @@ import React, {Component} from 'react'
 
 class Book extends Component {
   render(){
-    console.log(this.props.book)
     const book = this.props.book;
-    const {title, subtitle, authors} = book;
-    const thumbnail = book.imageLinks.thumbnail;
+    const {title, subtitle, authors, shelf} = book;
+    const thumbnail = book.imageLinks !== undefined ? book.imageLinks.thumbnail : '';
 
     return (
       <div className="book">
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${thumbnail})`}}></div>
           <div className="book-shelf-changer">
-            <select value={book.shelf} onChange={(e) => this.props.onChangeShelf(book, e.target.value)}>
+            <select value={shelf === undefined ? "none" : shelf} onChange={(e) => this.props.onChangeShelf(book, e.target.value)}>
               <option value="move" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
@@ -24,9 +23,7 @@ class Book extends Component {
         <div className="book-title">{title}</div>
         <div className="book-title">{subtitle}</div>
         <div className="book-authors">
-          {authors.map((author) => {
-            return (<div key={author} className="book-author">{author}</div>)
-          })}
+          {authors}
         </div>
       </div>
     )
