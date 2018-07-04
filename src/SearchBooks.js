@@ -19,15 +19,16 @@ class SearchBooks extends Component{
         if(books.error){
           books = [];
         }
-        this.setState({books: books})
-      })
+        books = books.map((apiBook) => {
+          let userBook;
+          if(userBook = this.props.userBooks.find((userBook) => userBook.id === apiBook.id )){
+            apiBook.shelf = userBook.shelf;
+          }
+          return apiBook;
+        });
+        this.setState({books: books});
+      });
     }
-  }
-
-  onChangeShelf = (book, shelf) => {
-    const books = this.state.books.filter((b) => b.id !== book.id);
-    this.setState({books: books});
-    this.props.onChangeShelf(book, shelf);
   }
 
   render(){
@@ -46,7 +47,7 @@ class SearchBooks extends Component{
             {this.state.books.map((book) => {
               return (
                 <li key={book.id}>
-                  <Book book={book} onChangeShelf={this.onChangeShelf}/>
+                  <Book book={book} onChangeShelf={this.props.onChangeShelf}/>
                 </li>
               )
             })}
