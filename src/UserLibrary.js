@@ -1,9 +1,15 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom';
 import BookShelf from './BookShelf.js';
+import PropTypes from 'prop-types';
 
 
 class UserLibrary extends Component {
+
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    onChangeShelf: PropTypes.func.isRequired
+  }
 
   currentlyReading() {
     return this.props.books.filter(b => b.shelf === "currentlyReading");
